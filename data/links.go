@@ -39,6 +39,15 @@ func (l *Links) ToJson(w io.Writer) error {
 	return e.Encode(l)
 }
 
+func (l *Links) GetLinkByCode(code string) *Link {
+	for i := 0; i < len(linksList); i++ {
+		if linksList[i].ShortenedCode == code {
+			return linksList[i]
+		}
+	}
+	return &Link{}
+}
+
 // Provisional database
 var linksList = []*Link{
 	{

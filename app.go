@@ -21,8 +21,7 @@ func main() {
 	r := mux.NewRouter()
 	lh := handlers.NewLink(l)
 
-	r.HandleFunc("/", HomeHandler)
-
+	r.HandleFunc("/{code}", lh.RedirectHandle)
 	r.HandleFunc("/links", lh.GetAllLinks).Methods("GET")
 	r.HandleFunc("/links", lh.PostLink).Methods("POST")
 
