@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/andreanidouglas/url-shortener/data"
+	"github.com/gorilla/mux"
 )
 
 type Links struct {
@@ -40,6 +41,17 @@ func (l *Links) GetAllLinks(w http.ResponseWriter, r *http.Request) {
 		l.l.Fatalf("could not marshall data properly: %v", err)
 		return
 	}
+
+}
+
+func (l *Links) RedirectHandle(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+
+	links := data.GetLinks()
+	link := links.GetLinkByCode(vars["code"])
+	link.NumOfVisits += 1
+
+	http.Redirect(w, r, link.OriginalLink, http.StatusPermanentRedirect)
 
 }
 
