@@ -20,12 +20,14 @@ func main() {
 
 	r := mux.NewRouter()
 	lh := handlers.NewLink(l)
-
-	r.HandleFunc("/{code}", lh.RedirectHandle)
+    r.HandleFunc("/", HomeHandler).Methods("GET")
 	r.HandleFunc("/links", lh.GetAllLinks).Methods("GET")
 	r.HandleFunc("/links", lh.PostLink).Methods("POST")
 
-	fmt.Println("Serving on port: 3000")
+	r.HandleFunc("/{code}", lh.RedirectHandle)
+	
+
+    fmt.Println("Serving on port: 3000")
 	http.ListenAndServe(":3000", r)
 
 }
